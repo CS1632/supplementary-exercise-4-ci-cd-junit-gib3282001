@@ -18,8 +18,25 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean returnCat(int id) {
-		// TODO
-		return false;
+		
+		// First check if the cat with ID 'id' exists. If not, then return false
+		if(!catExists(id)){
+			return false;
+		}
+
+		// If cat is not available (rented)
+		if( !catAvailable(id) ){
+
+			Cat cat = getCat(id); // Get cat of ID 'id'
+			
+			cat.returnCat();	// Call returnCat on that cat (sets rented = false)
+			
+			return true;	// Return true
+		
+		} 
+
+		return false;	// Otherwise, retrun false.
+		
 	}
 
 	/**
@@ -33,8 +50,23 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean rentCat(int id) {
-		// TODO
-		return false;
+		
+		// First check if the cat with ID 'id' exists. If not, then return false
+		if(!catExists(id)){
+			return false;
+		}
+
+		// If cat is available (not rented)
+		if( catAvailable(id) ){
+
+			Cat cat = getCat(id); // Get cat of ID 'id'
+			
+			cat.rentCat(); // Call rent on that cat (sets rented = true)
+			
+			return true; // Return true
+		} 
+		return false;	// Otherwise return false.
+
 	}
 
 	/**
@@ -48,8 +80,29 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public String listCats() {
-		// TODO
-		return "WRITE CODE FOR THIS";
+	
+		String output = "";
+
+		// Check if list is empty/null. If either true, return empty string.
+		if (cats == null || cats.size() == 0) {
+			return output;
+		}
+
+		// Iterate through cats. 
+		for(Cat c : cats){
+
+			// For each cat, check if it is rented.
+
+			// If not rented, then add their 'toString' to the output string.
+
+			if(!c.getRented()){
+				output += c.toString() + "\n"; // Add a \n for formatting specified in requirements.
+			}
+		}
+
+		// Return the compiled string.
+		return output;
+
 	}
 
 	/**
@@ -62,7 +115,21 @@ public class RentACatImpl implements RentACat {
 	 */
 
 	public boolean catExists(int id) {
-		// TODO
+
+		// Check if list is empty/null. If either true, return false.
+		if( cats==null || cats.isEmpty() ){
+			return false;
+		}
+
+		// Get cat of ID 'id'
+		Cat cat = getCat(id);
+		
+		// If getCat(id) does NOT return null, that means the cat exists, and we return true.
+		if(cat != null){
+			return true;
+		}
+		
+		// Otherwise return false.
 		return false;
 	}
 
